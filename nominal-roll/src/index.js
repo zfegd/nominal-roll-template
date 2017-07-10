@@ -650,37 +650,6 @@ function generateSearchResultsMessage(searchQuery,results){
     return sentence;
 }
 
-function getGenericHelpMessage(data){
-  var sentences = ["ask - who is " + getRandomName(data),"say - find an evangelist in " + getRandomCity(data)];
-  return "You can " + sentences[getRandom(0,sentences.length-1)]
-}
-
-function generateSearchHelpMessage(gender){
-    var sentence = "Sorry, I don't know that. You can ask me - what's " + genderize("his-her", gender) +" twitter, or give me " + genderize("his-her", gender) + " git-hub username";
-    return sentence;
-}
-
-function generateTellMeMoreMessage(person){
-    var sentence = person.firstName + " joined the Alexa team in " + person.joinDate + ". " + genderize("his-her", person.gender) + " Twitter handle is " + person.saytwitter + " . " + generateSendingCardToAlexaAppMessage(person,"general");
-    return sentence;
-}
-function generateSpecificInfoMessage(slots,person){
-    var infoTypeValue;
-    var sentence;
-
-    if (slots.infoType.value == "git hub"){
-      infoTypeValue = "github";
-      console.log("resetting gith hub to github");
-    }
-    else{
-      console.log("no reset required for github");
-      infoTypeValue = slots.infoType.value;
-    }
-
-    sentence = person.firstName + "'s " + infoTypeValue.toLowerCase() + " is - " + person["say" + infoTypeValue.toLowerCase()] + " . Would you like to find another evangelist? " + getGenericHelpMessage(data);
-    return optimizeForSpeech(sentence);
-}
-
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
@@ -691,71 +660,33 @@ exports.handler = function(event, context, callback) {
 // =====================================================================================================
 // ------------------------------------ Section 4. Helper Functions  -----------------------------------
 // =====================================================================================================
-// For more helper functions, visit the Alexa cookbook at https://github.com/alexa/alexa-cookbook
-//======================================================================================================
 
-function getRandom(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function getRandomCity(arrayOfStrings) {
-    return arrayOfStrings[getRandom(0, data.length - 1)].cityName;
-}
-
-function getRandomName(arrayOfStrings) {
-    var randomNumber = getRandom(0, data.length - 1)
-    return arrayOfStrings[randomNumber].firstName + " " + arrayOfStrings[randomNumber].lastName;
-}
-
-function titleCase(str) {
-    return str.replace(str[0], str[0].toUpperCase());
-}
-
-function slowSpell(str) {
-    return "That's spelled - " + str.split("").join("<break time=\"0.05s\"/>");
-}
-
-function generateCard(person) {
-    var cardTitle = "Contact Info for " + titleCase(person.firstName) + " " + titleCase(person.lastName);
-    var cardBody = "Twitter: " + "@" + person.twitter + " \n" + "GitHub: " + person.github + " \n" + "LinkedIn: " + person.linkedin;
-    var imageObj = {
-        smallImageUrl: "https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/team-lookup/avatars/" + person.firstName + "._TTH_.jpg",
-        largeImageUrl: "https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/team-lookup/avatars/" + person.firstName + "._TTH_.jpg",
-    };
-    return {
-        "title": cardTitle,
-        "body": cardBody,
-        "image": imageObj
-    };
-}
-
-function loopThroughArrayOfObjects(arrayOfStrings) {
-    var joinedResult = "";
-    // Looping through the each object in the array
-    for (var i = 0; i < arrayOfStrings.length; i++) {
-    //concatenating names (firstName + lastName ) for each item
-        joinedResult = joinedResult + ", " + arrayOfStrings[i].firstName + " " + arrayOfStrings[i].lastName;
+function checkName(data, name){
+  for (var i = 0; i < data.length; i++) {
+    if(data[i].name.valueOf() == name.valueOf()){
+      return true;
     }
-    return joinedResult;
+  }
+  return false;
 }
 
-function genderize(type, gender) {
-    var pronouns ={
-        "m":{"he-she":"he","his-her":"his","him-her":"him"},
-        "f":{"he-she":"she","his-her":"her","him-her":"her"}
-    };
-    return pronouns[gender][type];
+// Assumes no duplicate names
+function checkNRIC(data, name, id){
+  for (var i = 0; i < data.length; i++) {
+    if(data[i].name.valueOf() == name.valueOf()){
+      if(data[i].id.valueOf() == id.valueOf()){
+        return true;
+      }
+      return false;
+    }
+  }
 }
 
-function sanitizeSearchQuery(searchQuery){
-    searchQuery = searchQuery.replace(/’s/g, "").toLowerCase();
-    searchQuery = searchQuery.replace(/'s/g, "").toLowerCase();
-    return searchQuery;
-}
-
-function optimizeForSpeech(str){
-    var optimizedString = str.replace("github","git-hub");
-    return optimizedString;
+function addData(data, name, id){
+    var newName = {name:"",id:""};
+    newName.name = name;
+    newName.id = id;
+    data.push(newName);
 }
 
 function isSlotValid(request, slotName){
@@ -772,17 +703,6 @@ function isSlotValid(request, slotName){
             //we didn't get a value in the slot.
             return false;
         }
-}
-
-
-
-function isInArray(value, array) {
-  return array.indexOf(value) > -1;
-}
-
-function isInfoTypeValid(infoType){
-  var validTypes = ["git hub","github","twitter","linkedin"]
-  return isInArray(infoType,validTypes);
 }
 
 function testingThisFunction(str){
