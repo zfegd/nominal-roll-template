@@ -1,60 +1,73 @@
 "use strict";
 const Alexa = require("alexa-sdk"); // import the library
 
-//=========================================================================================================================================
-//TODO: The items below this comment need your attention
-//=========================================================================================================================================
-
-//Replace with your app ID (OPTIONAL).  You can find this value at the top of your skill's page on http://developer.amazon.com.
-//Make sure to enclose your value in quotes, like this:  var APP_ID = "amzn1.ask.skill.bb4045e6-b3e8-4133-b650-72923c5980f1";
-var APP_ID = undefined;
+var APP_ID = "amzn1.ask.skill.f589ec20-89b0-4556-9bf7-a6c3dc853cbb";
 
 // =====================================================================================================
 // --------------------------------- Section 1. Data and Text strings  ---------------------------------
 // =====================================================================================================
-//TODO: Replace this data with your own.
-//======================================================================================================
 
+//Placeholder data, in reality should connect to a database to get list of people
 var data=[
-    {firstName:"dave",lastName:"isbitski",title:"Chief Alexa evangelist",cityName:"philadelphia",twitter:"thedavedev",saytwitter:"the dave dev",github:"disbitski",saygithub:"d, isbitski",linkedin:"https://www.linkedin.com/in/davidisbitski",saylinkedin:"david isbitski",joinDate:"October 2015",gender:"m"},
-    {firstName:"paul",lastName:"cutsinger",title:"Head of Voice Design Education on Amazon Alexa",cityName:"seattle",twitter:"paulcutsinger",saytwitter:"paul cutsinger",github:"paulcutsinger",saygithub:"paulcutsinger",linkedin:"https://www.linkedin.com/in/paulcutsinger",saylinkedin:"paul cutsinger",joinDate:"January 2016",gender:"m"},
-    {firstName:"amit",lastName:"jotwani",title:"an Alexa AI and machine learning evangelist",cityName:"new york",twitter:"amit",saytwitter:"amit",github:"ajot",saygithub:"a, jot",linkedin:"https://www.linkedin.com/in/ajotwani",saylinkedin:"a jotwani",joinDate:"February 2016",gender:"m"},
-    {firstName:"jeff",lastName:"blankenburg",title:"an Alexa evangelist",cityName:"columbus",twitter:"jeffblankenburg",saytwitter:"jeff blankenburg",github:"jeffblankenburg",saygithub:"jeffblankenburg",linkedin:"https://www.linkedin.com/in/jeffblankenburg",saylinkedin:"jeff blankenburg",joinDate:"September 2016",gender:"m"},
-    {firstName:"rob",lastName:"mccauley",title:"a Solutions Architect on the Alexa Skills Team",cityName:"boston",twitter:"robmccauley",saytwitter:"rob mccauley",github:"robm26",saygithub:"rob m 26",linkedin:"https://www.linkedin.com/in/robm26",saylinkedin:"rob m 26",joinDate:"February 2016",gender:"m"},
-    {firstName:"memo",lastName:"doring",title:"a Solutions Architect on the Alexa Skills Team",cityName:"seattle",twitter:"memodoring",saytwitter:"memo doring",github:"memodoring",saygithub:"memo doring",linkedin:"https://www.linkedin.com/in/guillermodoring",saylinkedin:"guillermo doring",joinDate:"April 2016",gender:"m"},
-    {firstName:"liz",lastName:"myers",title:"a Solutions Architect on the Alexa Skills Team",cityName:"seattle",twitter:"lizmyers",saytwitter:"liz myers",github:"lizmyers",saygithub:"liz myers",linkedin:"https://www.linkedin.com/in/lizmyers",saylinkedin:"liz myers",joinDate:"May 2016",gender:"f"},
-    {firstName:"jen",lastName:"gilbert",title:"a Marketing Manager on the Alexa Skills team",cityName:"seattle",twitter:"thejengil",saytwitter:"the jengil",github:"jengilbert",saygithub:"jen gilbert",linkedin:"https://www.linkedin.com/in/jenpaullgilbert/",saylinkedin:"jen paull gilbert",joinDate:"June 2016",gender:"f"}
+    {name:"Jimmy Daniels", id:"I-73458622"},
+    {name:"Kevin Tyson", id:"I-88213044"},
+    {name:"Graham Dallas", id:"N-12456788"},
+    {name:"Suzie Hammers", id:"C-81792323"},
+    {name:"Daniela Lopez", id:"I-96231001"},
+    {name:"Wilbur Rosetta", id:"N-72881543"}
 ];
 
-//======================================================================================================
-//TODO: Replace these text strings to edit the welcome and help messages
-//======================================================================================================
-
-var skillName = "Alexa Team Lookup";
+var skillName = "Are You Invited?";
 
 //This is the welcome message for when a user starts the skill without a specific intent.
-// var WELCOME_MESSAGE = "Welcome to  " + skillName + "! I can help you find Alexa Evangelists and Solutions Architects. " + getGenericHelpMessage(data);
+var WELCOME_MESSAGE = "Find out if someone is invited to the party, or add someone to the list. I can also update the list from the database."
 
-var WELCOME_MESSAGE = "Learn about Alexa Evangelists. For example, " + getGenericHelpMessage(data)
+// This is the example message of how a user can ask the skill
+var EXAMPLE_ASK_MESSAGE = "You can ask, is John Smith cleared to enter?"
 
 //This is the message a user will hear when they ask Alexa for help in your skill.
-var HELP_MESSAGE = "I can help you find Alexa Evangelists and Solutions Architects. "
+var HELP_MESSAGE = "Would you like to check if someone is invited?"
+
+//This is the message a user will hear when they ask Alexa for help in your skill, and got rejected the first time
+var HELP_MESSAGE_TWO = "Would you like to add someone to the invited list?"
+
+//This is the last help message prompt the skill offers
+var HELP_MESSAGE_THREE = "Would you like to update the list?"
+
+//This is the message if help is asked, but all the requests were rejected
+var HELP_MESSAGE_FAILED = "Sorry, I can't help you with anything else."
+
+// This is the message Alexa gives when updating list
+var UPDATING_MESSAGE = "Updating list in progress. Please stand by."
+
+// This is the message Alexa gives when list has updated
+var UPDATED_MESSAGE = "The list has been updated!"
 
 //This is the message a user will hear when they begin a new search
-var NEW_SEARCH_MESSAGE = getGenericHelpMessage(data);
+var NEW_SEARCH_MESSAGE = "I can help you check if that person is cleared to enter.";
+
+var ENTRANCE_FAILURE_MESSAGE = "Sorry! That person is not cleared for entry!"
+var NAME_SUCCESS_PROMPT = "Please confirm person's ID"
+var ENTRANCE_SUCCESS_MESSAGE = "That person is cleared to enter!"
+
+// TODO Implement spelling checks in future
+var UNCLEAR_SPELLING_MESSAGE = "Please spell the person's name out clearly."
+
+var ADD_NAME_PROMPT = "What is the name of the person you want to add?"
+var ADD_ID_PROMPT = "What is the person's ID?"
+var ADD_SUCCESS_MESSAGE = "That person has been added."
+
+//TODO Implement duplicate checker
+var ADD_FAILURE_MESSAGE = "That person was already in the list."
 
 //This is the message a user will hear when they ask Alexa for help while in the SEARCH state
-var SEARCH_STATE_HELP_MESSAGE = getGenericHelpMessage(data);
-
-var DESCRIPTION_STATE_HELP_MESSAGE = "Here are some things you can say: Tell me more, or give me his or her contact info";
-
-var MULTIPLE_RESULTS_STATE_HELP_MESSAGE = "Sorry, please say the first and last name of the person you'd like to learn more about";
+var SEARCH_STATE_HELP_MESSAGE = "Search is happening. Please wait to ask for help.";
 
 // This is the message use when the decides to end the search
 var SHUTDOWN_MESSAGE = "Ok.";
 
 //This is the message a user will hear when they try to cancel or stop the skill.
-var EXIT_SKILL_MESSAGE = "Ok.";
+var EXIT_SKILL_MESSAGE = "Goodbye";
 
 // =====================================================================================================
 // ------------------------------ Section 2. Skill Code - Intent Handlers  -----------------------------
@@ -344,7 +357,7 @@ var descriptionHandlers = Alexa.CreateStateHandler(states.DESCRIPTION, {
         this.handler.state = states.SEARCHMODE;
         var output = "Ok, starting over." + getGenericHelpMessage(data);
         this.emit(":ask", output, output);
-    },    
+    },
     "SessionEndedRequest": function() {
         this.emit("AMAZON.StopIntent");
     },
