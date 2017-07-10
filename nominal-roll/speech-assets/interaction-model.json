@@ -1,328 +1,252 @@
 {
   "intents": [
     {
+      "name": "AddToListIntent",
+      "samples": [
+        "Please add {Name} with id {ID} to the list",
+        "Add {Name} with id {ID} to the list",
+        "Add {Name} {ID} to the list",
+        "Add {ID} {Name} to the list",
+        "Add {ID} {Name}",
+        "Please add {ID} {Name}"
+      ],
+      "slots": [
+        {
+          "name": "Name",
+          "type": "LIST_OF_NAMES",
+          "samples": []
+        },
+        {
+          "name": "ID",
+          "type": "LIST_OF_ID",
+          "samples": []
+        }
+      ]
+    },
+    {
       "name": "AMAZON.CancelIntent",
-      "samples": []
+      "samples": [
+        "cancel"
+      ]
     },
     {
       "name": "AMAZON.HelpIntent",
       "samples": [
-        "how do I search"
-      ]
-    },
-    {
-      "name": "AMAZON.NoIntent",
-      "samples": []
-    },
-    {
-      "name": "AMAZON.RepeatIntent",
-      "samples": [
-        "repeat that",
-        "say that again",
-        "can you say that again",
-        "please repeat"
-      ]
-    },
-    {
-      "name": "AMAZON.StartOverIntent",
-      "samples": [
-        "startover",
-        "new search",
-        "search again"
+        "help",
+        "alexa help",
+        "what to do",
+        "what can you do",
+        "what can i do"
       ]
     },
     {
       "name": "AMAZON.StopIntent",
-      "samples": []
-    },
-    {
-      "name": "AMAZON.YesIntent",
-      "samples": []
-    },
-    {
-      "name": "SearchByCityIntent",
       "samples": [
-        "who is in {cityName} ",
-        "find me an evangelist in {cityName} ",
-        "find me someone in {cityName} ",
-        "{cityName} ",
-        "{cityName} evangelist"
+        "goodbye",
+        "exit",
+        "stop"
+      ]
+    },
+    {
+      "name": "CheckListIntent",
+      "samples": [
+        "Please check {Name} with id {ID}\n",
+        "Check {Name} with id {ID}",
+        "check {Name} {ID}",
+        "check {ID} {Name}",
+        "Is {Name} with id {ID} on the list",
+        "Is {Name} with id {ID} in the list",
+        "Is {Name} {ID} on the list",
+        "Is {Name} {ID} in the list",
+        "Is {ID} {Name} on the list",
+        "Is {ID} {Name} in the list"
       ],
       "slots": [
         {
-          "name": "cityName",
-          "type": "AMAZON.US_CITY",
+          "name": "Name",
+          "type": "LIST_OF_NAMES",
+          "samples": []
+        },
+        {
+          "name": "ID",
+          "type": "LIST_OF_ID",
           "samples": []
         }
       ]
     },
     {
-      "name": "SearchByInfoTypeIntent",
+      "name": "PullListIntent",
       "samples": [
-        "{whatPhrase} {firstName} {lastName} {infoType}",
-        "{whatPhrase} {lastName} {infoType}",
-        "{whatPhrase} {firstName}  {infoType} handle",
-        "{whatPhrase} {firstName} {infoType} username"
-      ],
-      "slots": [
-        {
-          "name": "firstName",
-          "type": "AMAZON.US_FIRST_NAME",
-          "samples": []
-        },
-        {
-          "name": "lastName",
-          "type": "LAST_NAME",
-          "samples": []
-        },
-        {
-          "name": "infoType",
-          "type": "LIST_OF_INFO_TYPES",
-          "samples": []
-        },
-        {
-          "name": "whatPhrase",
-          "type": "WHAT_PHRASE",
-          "samples": []
-        }
-      ]
-    },
-    {
-      "name": "SearchByNameIntent",
-      "samples": [
-        "{firstName}",
-        "{lastName}",
-        "{firstName} {lastName}",
-        "{whoPhrase} {firstName} ",
-        "{whoPhrase} {firstName} {lastName} ",
-        "{whoPhrase} {lastName} ",
-        "{whatPhrase} {firstName} {lastName} {infoType} username",
-        "{whatPhrase} {infoType} for {firstName} ",
-        "{whatPhrase} {firstName} {lastName} {infoType} handle"
-      ],
-      "slots": [
-        {
-          "name": "firstName",
-          "type": "AMAZON.US_FIRST_NAME",
-          "samples": []
-        },
-        {
-          "name": "lastName",
-          "type": "LAST_NAME",
-          "samples": []
-        },
-        {
-          "name": "infoType",
-          "type": "LIST_OF_INFO_TYPES",
-          "samples": []
-        },
-        {
-          "name": "whoPhrase",
-          "type": "WHO_PHRASE",
-          "samples": []
-        },
-        {
-          "name": "whatPhrase",
-          "type": "WHAT_PHRASE",
-          "samples": []
-        }
-      ]
-    },
-    {
-      "name": "TellMeMoreIntent",
-      "samples": [
-        "contact info",
-        "tell me more",
-        "more details"
+        "Update the list",
+        "Please update the list",
+        "Update the list please",
+        "Can you update the list",
+        "Could you update the list",
+        "Could you update the list please",
+        "Can you update the list please"
       ],
       "slots": []
-    },
-    {
-      "name": "TellMeThisIntent",
-      "samples": [
-        "{whatPhrase} her {infoType} handle",
-        "{whatPhrase} her {infoType} username",
-        "{whatPhrase} {infoType} username",
-        "{whatPhrase} his {infoType} handle",
-        "tell me his {infoType} username",
-        "tell me her {infoType} handle"
-      ],
-      "slots": [
-        {
-          "name": "infoType",
-          "type": "LIST_OF_INFO_TYPES",
-          "samples": []
-        },
-        {
-          "name": "whatPhrase",
-          "type": "WHAT_PHRASE",
-          "samples": []
-        }
-      ]
     }
   ],
   "types": [
     {
-      "name": "AMAZON.US_FIRST_NAME",
+      "name": "LIST_OF_ID",
       "values": [
         {
+          "id": null,
           "name": {
-            "value": "paul"
+            "value": "I-73458622",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "jeff"
+            "value": "I-88213044",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "memo"
+            "value": "N-12456788",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "rob"
+            "value": "C-81792323",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "dave"
+            "value": "I-96231001",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "amit"
+            "value": "N-72881543",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "liz"
+            "value": "I-12345678",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "dean"
+            "value": "C-12345678",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "N-12345678",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "I-10011001",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "C-10011001",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "N-10011001",
+            "synonyms": []
           }
         }
       ]
     },
     {
-      "name": "LAST_NAME",
+      "name": "LIST_OF_NAMES",
       "values": [
         {
+          "id": null,
           "name": {
-            "value": "cutsinger"
+            "value": "Jimmy Daniels",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "blankenburg"
+            "value": "Kevin Tyson",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "doring"
+            "value": "Graham Dallas",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "mccauley"
+            "value": "Suzie Hammers",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "isbitsky"
+            "value": "Daniela Lopez",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "palermo"
+            "value": "Wilbur Rosetta",
+            "synonyms": []
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "jotwani"
+            "value": "Ronald Drump",
+            "synonyms": [
+              "Ronald Drum"
+            ]
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "myers"
+            "value": "Marisa Day",
+            "synonyms": [
+              "Merissa Day",
+              "Marissa Day"
+            ]
           }
         },
         {
+          "id": null,
           "name": {
-            "value": "bryen"
-          }
-        },
-        {
-          "name": {
-            "value": "gilbert"
-          }
-        }
-      ]
-    },
-    {
-      "name": "LIST_OF_INFO_TYPES",
-      "values": [
-        {
-          "name": {
-            "value": "twitter"
-          }
-        },
-        {
-          "name": {
-            "value": "git hub"
-          }
-        },
-        {
-          "name": {
-            "value": "linkedin"
-          }
-        },
-        {
-          "name": {
-            "value": "github"
-          }
-        }
-      ]
-    },
-    {
-      "name": "WHAT_PHRASE",
-      "values": [
-        {
-          "name": {
-            "value": "what is"
-          }
-        },
-        {
-          "name": {
-            "value": "what's"
-          }
-        },
-        {
-          "name": {
-            "value": "give me"
-          }
-        },
-        {
-          "name": {
-            "value": "tell me"
-          }
-        }
-      ]
-    },
-    {
-      "name": "WHO_PHRASE",
-      "values": [
-        {
-          "name": {
-            "value": "find"
-          }
-        },
-        {
-          "name": {
-            "value": "who is"
+            "value": "Mandela Erkel",
+            "synonyms": []
           }
         }
       ]

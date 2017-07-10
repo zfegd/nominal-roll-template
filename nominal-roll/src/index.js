@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 //const Alexa = require("alexa-sdk"); // import the library
 
 var APP_ID = "amzn1.ask.skill.f589ec20-89b0-4556-9bf7-a6c3dc853cbb";
