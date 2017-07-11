@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 const Alexa = require("alexa-sdk"); // import the library
 
 var APP_ID = "amzn1.ask.skill.f589ec20-89b0-4556-9bf7-a6c3dc853cbb";
@@ -76,6 +76,7 @@ var EXIT_SKILL_MESSAGE = "Goodbye";
 
 var handlers = {
   "LaunchRequest" : function() {
+    console.log("Started Launch");
     this.emit(":ask", WELCOME_MESSAGE);
   },
   "AddToListIntent" : function() {
@@ -102,8 +103,10 @@ var handlers = {
     this.emit(":tell", SHUTDOWN_MESSAGE);
   },
   "AMAZON.HelpIntent" : function() {
+    console.log("Started Help");
     this.emit(":ask", HELP_MESSAGE);
     this.emit(":tell", EXAMPLE_ASK_MESSAGE);
+    console.log("Finished help");
   },
   "AMAZON.StopIntent" : function() {
     this.emit(":tell", EXIT_SKILL_MESSAGE);
