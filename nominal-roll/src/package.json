@@ -1,7 +1,7 @@
 {
   "name": "TeamLookup",
   "version": "1.0.0",
-  "description": "A skill to query a database of team members",
+  "description": "A skill to check attendance lists`",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
